@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning | Sara's Compass</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { --page-accent: var(--accent-study); --page-accent-soft: var(--accent-study-soft); --page-accent-dark: var(--accent-study-dark); }
+
+  .progress-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 700px) { .progress-grid { grid-template-columns: 1fr; } }
+
+  .progress-card { background: var(--base-bg); border: 1px solid var(--base-border); border-radius: var(--radius-md); padding: 16px 18px; }
+  .progress-card .pc-title { font-size: 13.5px; font-weight: 800; margin-bottom: 10px; }
+  .progress-bar-track { width: 100%; height: 10px; background: var(--base-border); border-radius: 999px; overflow: hidden; margin-bottom: 8px; }
+  .progress-bar-fill { height: 100%; background: var(--page-accent); border-radius: 999px; transition: width .3s; }
+  .pc-percent { font-size: 20px; font-weight: 800; color: var(--page-accent-dark); }
+  .pc-memo { font-size: 12px; color: var(--ink-soft); margin-top: 6px; min-height: 16px; }
+
+  .about-box {
+    background: var(--base-bg-card);
+    border: 1px solid var(--base-border);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .timeline-list { display: flex; flex-direction: column; gap: 10px; }
+  .timeline-item { display: flex; gap: 10px; align-items: baseline; font-size: 13px; }
+  .timeline-item .t-date { font-weight: 800; color: var(--page-accent-dark); min-width: 64px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="site-header">
+    <a href="index.html" class="logo">Sara's Compass</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="learning.html" class="active">Learning</a>
+      <a href="writing.html">Writing</a>
+      <a href="projects.html">Projects</a>
+      <a href="growth.html">Growth</a>
+    </nav>
+  </header>
+
+  <div class="page-hero">
+    <div class="eyebrow">LEARNING</div>
+    <h1>Learning</h1>
+    <p>税理士試験・近畿大学・産業能率大学。学びの進捗をまとめています。</p>
+  </div>
+
+  <div class="card">
+    <h2>進捗</h2>
+    <div class="progress-grid" id="progress-grid">
+      <div class="progress-card" data-target="財表受験">
+        <div class="pc-title">財務諸表論（税理士試験）</div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+        <div class="pc-percent">0%</div>
+        <div class="pc-memo">読み込み中…</div>
+      </div>
+      <div class="progress-card" data-target="近大残り単位">
+        <div class="pc-title">近畿大学（残り単位）</div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+        <div class="pc-percent">0%</div>
+        <div class="pc-memo">読み込み中…</div>
+      </div>
+      <div class="progress-card" data-target="産能大">
+        <div class="pc-title">産業能率大学</div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:0%"></div></div>
+        <div class="pc-percent">0%</div>
+        <div class="pc-memo">読み込み中…</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>学びの軌跡</h2>
+    <div class="timeline-list">
+      <div class="timeline-item">
+        <span class="t-date">2025年秋</span>
+        <span>近畿大学 通信教育部 法学部 入学</span>
+      </div>
+      <div class="timeline-item">
+        <span class="t-date">R7年</span>
+        <span>税理士試験 簿記論 合格</span>
+      </div>
+      <div class="timeline-item">
+        <span class="t-date">2026年</span>
+        <span>財務諸表論の合格に向けて学習中</span>
+      </div>
+      <div class="timeline-item">
+        <span class="t-date">2026年秋〜</span>
+        <span>産業能率大学 科目等履修 開始予定</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-box">
+    将来は神戸大学大学院に進学し、経営学を学ぶことを目指しています。税理士資格は、中小企業の経営者に寄り添う専門家になるための土台と位置づけています。
+  </div>
+
+  <footer class="site-footer">
+    Sara's Compass
+  </footer>
+
+</div>
+
+<script>
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwaZx_bNjdmJnyV2wSdmSrdyR-SYGlVUEMKDazAEW4oGb7INTFfntMZIomzItU-MBJvTQ/exec';
+
+  async function loadProgress() {
+    try {
+      const res = await fetch(GAS_URL + '?type=progress');
+      const rows = await res.json();
+      document.querySelectorAll('.progress-card').forEach(card => {
+        const target = card.dataset.target;
+        const row = rows.find(r => r.target === target);
+        const pct = row ? Number(row.progress_percent) : 0;
+        card.querySelector('.progress-bar-fill').style.width = Math.max(0, Math.min(100, pct)) + '%';
+        card.querySelector('.pc-percent').textContent = pct + '%';
+        card.querySelector('.pc-memo').textContent = row && row.memo ? row.memo : 'まだ記録なし';
+      });
+    } catch (err) {
+      document.querySelectorAll('.pc-memo').forEach(el => el.textContent = '取得できませんでした');
+    }
+  }
+
+  loadProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+/* ===========================================
+   共通スタイルシート
+   ベージュベース ＋ ページごとのアクセントカラー
+   =========================================== */
+
+:root {
+  /* ベース（共通） */
+  --base-bg: #f7f2e7;
+  --base-bg-card: #fffcf5;
+  --base-border: #e3d9c4;
+  --ink: #3a352b;
+  --ink-soft: #8a8270;
+
+  /* アクセント：トップページ（マリ・オレンジ） */
+  --accent-top: #d97a3f;
+  --accent-top-soft: #f0d9c4;
+  --accent-top-dark: #a85a2a;
+
+  /* アクセント：勉強記録（ジオ・ピンク） */
+  --accent-study: #d4537e;
+  --accent-study-soft: #f4c0d1;
+  --accent-study-dark: #993556;
+
+  /* アクセント：健康記録（ガジュマル・明るい緑） */
+  --accent-health: #6f8f5c;
+  --accent-health-soft: #d9e5cd;
+  --accent-health-dark: #4f6a3f;
+
+  /* アクセント：ブログ（深緑・知的で誠実） */
+  --accent-blog: #2f4d3a;
+  --accent-blog-soft: #d6e0d8;
+  --accent-blog-dark: #1d2f23;
+
+  /* アクセント：その他（グレー） */
+  --accent-other: #7a7670;
+  --accent-other-soft: #e3e0d9;
+  --accent-other-dark: #5a564f;
+
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Yu Gothic', sans-serif;
+  background: var(--base-bg);
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+/* ヘッダー（全ページ共通の枠、アクセント色だけ変わる） */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--base-border);
+}
+
+.site-header .logo {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 18px;
+}
+
+.site-header nav a {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+
+.site-header nav a:hover {
+  color: var(--ink);
+}
+
+.site-header nav a.active {
+  color: var(--page-accent-dark);
+  border-bottom-color: var(--page-accent);
+}
+
+/* ページタイトルブロック */
+.page-hero {
+  margin-bottom: 32px;
+}
+
+.page-hero .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--page-accent-dark);
+  margin-bottom: 6px;
+}
+
+.page-hero h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.page-hero p {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+
+/* カード */
+.card {
+  background: var(--base-bg-card);
+  border: 1px solid var(--base-border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 18px;
+}
+
+.card h2 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card h2::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--page-accent);
+  display: inline-block;
+}
+
+/* アクセントボタン */
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--page-accent);
+  color: #fffdf8;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity .15s;
+}
+
+.btn-accent:hover { opacity: 0.85; }
+
+/* タグ・チップ */
+.tag {
+  display: inline-block;
+  background: var(--page-accent-soft);
+  color: var(--page-accent-dark);
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+/* グリッドカード（トップページのナビカード等） */
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .nav-grid { grid-template-columns: 1fr; }
+}
+
+.nav-card {
+  display: block;
+  background: var(--base-bg-card);
+  border: 1px solid var(--base-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform .15s, box-shadow .15s;
+  border-left: 4px solid var(--card-accent, var(--page-accent));
+}
+
+.nav-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.nav-card .nc-title {
+  font-size: 15.5px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.nav-card .nc-desc {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+footer.site-footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--base-border);
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  text-align: center;
+}

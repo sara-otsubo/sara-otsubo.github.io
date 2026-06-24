@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>健康記録（非公開） | Sara's Compass</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { --page-accent: var(--accent-health); --page-accent-soft: var(--accent-health-soft); --page-accent-dark: var(--accent-health-dark); }
+
+  .form-grid { display: flex; flex-direction: column; gap: 14px; }
+
+  .field-block { background: var(--base-bg); border: 1px solid var(--base-border); border-radius: var(--radius-md); padding: 14px 16px; }
+  .field-block label.title { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; margin-bottom: 8px; }
+
+  .toggle-row { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .toggle-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--page-accent); }
+
+  .inline-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .inline-row input[type="number"] { width: 80px; }
+  .inline-row input[type="text"] { flex: 1; min-width: 140px; }
+
+  input[type="text"], input[type="number"], input[type="date"], select {
+    border: 1px solid var(--base-border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--base-bg-card);
+    color: var(--ink);
+  }
+  select { width: 100%; }
+
+  .slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .slider-row:last-child { margin-bottom: 0; }
+  .slider-row .s-label { font-size: 12.5px; color: var(--ink-soft); min-width: 36px; }
+  .slider-row input[type="range"] { flex: 1; accent-color: var(--page-accent); }
+  .slider-row .s-out { font-size: 13.5px; font-weight: 800; color: var(--page-accent-dark); min-width: 16px; text-align: center; }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--page-accent);
+    color: #fffdf8;
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 14.5px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .submit-btn:disabled { opacity: 0.6; cursor: default; }
+
+  #status-msg { font-size: 12.5px; margin-top: 8px; min-height: 16px; }
+  #status-msg.ok { color: var(--accent-health-dark); }
+  #status-msg.err { color: #a32d2d; }
+
+  .history-row {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    border: 1px solid var(--base-border); border-radius: 8px;
+    padding: 9px 12px; margin-bottom: 7px; font-size: 12.5px;
+  }
+  .history-row .h-date { font-weight: 800; min-width: 60px; color: var(--page-accent-dark); }
+  .history-row .h-tag { background: var(--page-accent-soft); color: var(--page-accent-dark); border-radius: 999px; padding: 2px 9px; font-size: 11px; }
+  #history-list .loading { font-size: 13px; color: var(--ink-soft); }
+
+  .private-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-other-soft);
+    color: var(--accent-other-dark);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 11.5px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="site-header">
+    <a href="index.html" class="logo">Sara's Compass</a>
+  </header>
+
+  <div class="page-hero">
+    <span class="private-badge">🔒 非公開ページ</span>
+    <div class="eyebrow">HEALTH LOG</div>
+    <h1>健康記録</h1>
+    <p>食事・運動・体重・メンタル・食欲・お茶・生理を、気が向いたときに記録しよう。</p>
+  </div>
+
+  <div class="card">
+    <h2>今日の記録</h2>
+    <form id="health-form" class="form-grid">
+
+      <div class="field-block">
+        <label class="title">記録する日</label>
+        <input type="date" id="date-input" required>
+      </div>
+
+      <div class="field-block">
+        <label class="toggle-row">
+          <input type="checkbox" id="okazu">
+          <span>おかずを先に食べた</span>
+        </label>
+      </div>
+
+      <div class="field-block">
+        <label class="title">運動・ストレッチ</label>
+        <label class="toggle-row" style="margin-bottom: 10px;">
+          <input type="checkbox" id="exercise-did">
+          <span>やった</span>
+        </label>
+        <div class="inline-row">
+          <input type="number" id="exercise-min" placeholder="分" min="0" max="180">
+          <span style="font-size:13px; color:var(--ink-soft);">分</span>
+        </div>
+        <input type="text" id="exercise-memo" placeholder="メモ（任意：ストレッチ内容など）" style="width:100%; margin-top:8px;">
+      </div>
+
+      <div class="field-block">
+        <label class="title">体重（任意）</label>
+        <div class="inline-row">
+          <input type="number" id="weight" placeholder="気が向いたときだけ" step="0.1" min="30" max="150">
+          <span style="font-size:13px; color:var(--ink-soft);">kg</span>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <label class="title">メンタル・食欲</label>
+        <div class="slider-row">
+          <span class="s-label">気分</span>
+          <input type="range" id="mood" min="1" max="5" value="3" step="1">
+          <span class="s-out" id="mood-out">3</span>
+        </div>
+        <div class="slider-row">
+          <span class="s-label">食欲</span>
+          <input type="range" id="appetite" min="1" max="5" value="3" step="1">
+          <span class="s-out" id="appetite-out">3</span>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <label class="title">お茶</label>
+        <div class="inline-row">
+          <input type="number" id="tea" placeholder="杯" min="0" max="15">
+          <span style="font-size:13px; color:var(--ink-soft);">杯</span>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <label class="title">生理</label>
+        <select id="period">
+          <option value="">記録なし</option>
+          <option value="start">開始日</option>
+          <option value="ongoing">生理中</option>
+          <option value="end">終了日</option>
+          <option value="pms">PMS（生理前の不調）</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">この日を保存</button>
+      <div id="status-msg"></div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>記録履歴</h2>
+    <div id="history-list"><p class="loading">読み込み中…</p></div>
+  </div>
+
+  <footer class="site-footer">
+    Sara's Compass — Project Compass
+  </footer>
+
+</div>
+
+<script>
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxcG5koxkbuJ7c44aPmVAe-jpXJXW8dsl4aot_tIniA7-Nc7GJm3r-AOQHyXrndb4Mv/exec';
+
+  const $ = id => document.getElementById(id);
+
+  function todayStr() {
+    const d = new Date();
+    const tz = d.getTimezoneOffset() * 60000;
+    return new Date(d - tz).toISOString().slice(0, 10);
+  }
+
+  $('date-input').value = todayStr();
+  $('mood').addEventListener('input', () => $('mood-out').textContent = $('mood').value);
+  $('appetite').addEventListener('input', () => $('appetite-out').textContent = $('appetite').value);
+
+  function periodLabel(p) {
+    if (p === 'start') return '生理開始';
+    if (p === 'ongoing') return '生理中';
+    if (p === 'end') return '生理終了';
+    if (p === 'pms') return 'PMS';
+    return '';
+  }
+
+  function dateLabel(d) {
+    if (!d) return '';
+    const md = new Date(String(d).slice(0, 10) + 'T00:00:00');
+    if (isNaN(md.getTime())) return String(d);
+    return (md.getMonth() + 1) + '/' + md.getDate();
+  }
+
+  $('health-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const btn = $('submit-btn');
+    const statusEl = $('status-msg');
+    btn.disabled = true;
+    statusEl.textContent = '送信中…';
+    statusEl.className = '';
+
+    const params = new URLSearchParams({
+      date: $('date-input').value,
+      okazu: $('okazu').checked ? 'true' : 'false',
+      exercise_did: $('exercise-did').checked ? 'true' : 'false',
+      exercise_min: $('exercise-min').value || '',
+      exercise_memo: $('exercise-memo').value || '',
+      weight: $('weight').value || '',
+      mood: $('mood').value,
+      appetite: $('appetite').value,
+      tea: $('tea').value || '',
+      period: $('period').value || ''
+    });
+
+    try {
+      const res = await fetch(GAS_URL, { method: 'POST', body: params });
+      const text = await res.text();
+      statusEl.textContent = '保存しました';
+      statusEl.className = 'ok';
+      loadHistory();
+    } catch (err) {
+      statusEl.textContent = '保存に失敗しました。もう一度試してね';
+      statusEl.className = 'err';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  async function loadHistory() {
+    const listEl = $('history-list');
+    listEl.innerHTML = '<p class="loading">読み込み中…</p>';
+    try {
+      const res = await fetch(GAS_URL);
+      const rows = await res.json();
+      if (!rows || rows.length === 0) {
+        listEl.innerHTML = '<p class="loading">まだ記録がありません</p>';
+        return;
+      }
+      const sorted = rows.slice().reverse().slice(0, 31);
+      listEl.innerHTML = sorted.map(r => {
+        const tags = [];
+        if (r.okazu === true || r.okazu === 'TRUE') tags.push('おかず先');
+        if (r.exercise_did === true || r.exercise_did === 'TRUE') {
+          tags.push('運動' + (r.exercise_min ? ' ' + r.exercise_min + '分' : ''));
+        }
+        if (r.weight) tags.push(r.weight + 'kg');
+        if (r.mood) tags.push('気分' + r.mood);
+        if (r.appetite) tags.push('食欲' + r.appetite);
+        if (r.tea) tags.push('お茶' + r.tea + '杯');
+        if (r.period) tags.push(periodLabel(r.period));
+        const tagHtml = tags.map(t => '<span class="h-tag">' + t + '</span>').join('');
+        return '<div class="history-row"><span class="h-date">' + dateLabel(r.date) + '</span>' + tagHtml + '</div>';
+      }).join('');
+    } catch (err) {
+      listEl.innerHTML = '<p class="loading">履歴を取得できませんでした</p>';
+    }
+  }
+
+  loadHistory();
+</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学習ログ（非公開） | Sara's Compass</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { --page-accent: var(--accent-study); --page-accent-soft: var(--accent-study-soft); --page-accent-dark: var(--accent-study-dark); }
+
+  .private-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-other-soft);
+    color: var(--accent-other-dark);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 11.5px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .form-grid { display: flex; flex-direction: column; gap: 14px; }
+  .field-block { background: var(--base-bg); border: 1px solid var(--base-border); border-radius: var(--radius-md); padding: 14px 16px; }
+  .field-block label.title { display: block; font-size: 13.5px; font-weight: 700; margin-bottom: 8px; }
+
+  input[type="text"], input[type="number"], input[type="date"], select {
+    border: 1px solid var(--base-border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--base-bg-card);
+    color: var(--ink);
+  }
+  select { width: 100%; }
+  input[type="text"] { width: 100%; }
+
+  .inline-row { display: flex; align-items: center; gap: 10px; }
+  .inline-row input[type="number"] { width: 90px; }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--page-accent);
+    color: #fffdf8;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .submit-btn:disabled { opacity: 0.6; cursor: default; }
+
+  #log-status { font-size: 12.5px; margin-top: 8px; min-height: 16px; }
+  #log-status.ok { color: var(--accent-study-dark); }
+  #log-status.err { color: #a32d2d; }
+
+  .history-row {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    border: 1px solid var(--base-border); border-radius: 8px;
+    padding: 9px 12px; margin-bottom: 7px; font-size: 12.5px;
+  }
+  .history-row .h-date { font-weight: 800; min-width: 50px; color: var(--page-accent-dark); }
+  .history-row .h-tag { background: var(--page-accent-soft); color: var(--page-accent-dark); border-radius: 999px; padding: 2px 9px; font-size: 11px; }
+  .history-row .h-content { color: var(--ink); flex: 1; min-width: 120px; }
+  #history-list .loading { font-size: 13px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="site-header">
+    <a href="index.html" class="logo">Sara's Compass</a>
+  </header>
+
+  <div class="page-hero">
+    <span class="private-badge">🔒 非公開ページ</span>
+    <h1>学習ログ</h1>
+    <p>日々の学習内容と時間を記録。進捗の見える化は <a href="learning.html" style="color:var(--page-accent-dark); font-weight:700;">learning.html</a> へ。</p>
+  </div>
+
+  <div class="card">
+    <h2>今日の学習ログ</h2>
+    <form id="log-form" class="form-grid">
+      <div class="field-block">
+        <label class="title">学習日</label>
+        <input type="date" id="log-date" required>
+      </div>
+      <div class="field-block">
+        <label class="title">カテゴリ</label>
+        <select id="log-category">
+          <option value="財表">財表（税理士試験）</option>
+          <option value="近大">近大通信</option>
+          <option value="産能大">産能大</option>
+          <option value="その他">その他</option>
+        </select>
+      </div>
+      <div class="field-block">
+        <label class="title">学習内容</label>
+        <input type="text" id="log-content" placeholder="例：理論問題集 第3章、過去問演習など">
+      </div>
+      <div class="field-block">
+        <label class="title">学習時間</label>
+        <div class="inline-row">
+          <input type="number" id="log-minutes" placeholder="分" min="0" max="600">
+          <span style="font-size:13px; color:var(--ink-soft);">分</span>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn" id="log-submit-btn">記録する</button>
+      <div id="log-status"></div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>学習履歴</h2>
+    <div id="history-list"><p class="loading">読み込み中…</p></div>
+  </div>
+
+  <footer class="site-footer">
+    Sara's Compass
+  </footer>
+
+</div>
+
+<script>
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbwaZx_bNjdmJnyV2wSdmSrdyR-SYGlVUEMKDazAEW4oGb7INTFfntMZIomzItU-MBJvTQ/exec';
+
+  const $ = id => document.getElementById(id);
+
+  function todayStr() {
+    const d = new Date();
+    const tz = d.getTimezoneOffset() * 60000;
+    return new Date(d - tz).toISOString().slice(0, 10);
+  }
+
+  $('log-date').value = todayStr();
+
+  function dateLabel(d) {
+    if (!d) return '';
+    const md = new Date(String(d).slice(0, 10) + 'T00:00:00');
+    if (isNaN(md.getTime())) return String(d);
+    return (md.getMonth() + 1) + '/' + md.getDate();
+  }
+
+  $('log-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const btn = $('log-submit-btn');
+    const statusEl = $('log-status');
+    btn.disabled = true;
+    statusEl.textContent = '送信中…';
+    statusEl.className = '';
+
+    const params = new URLSearchParams({
+      type: 'log',
+      date: $('log-date').value,
+      category: $('log-category').value,
+      content: $('log-content').value || '',
+      minutes: $('log-minutes').value || ''
+    });
+
+    try {
+      await fetch(GAS_URL, { method: 'POST', body: params });
+      statusEl.textContent = '記録しました';
+      statusEl.className = 'ok';
+      $('log-content').value = '';
+      $('log-minutes').value = '';
+      loadHistory();
+    } catch (err) {
+      statusEl.textContent = '記録に失敗しました。もう一度試してね';
+      statusEl.className = 'err';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  async function loadHistory() {
+    const listEl = $('history-list');
+    listEl.innerHTML = '<p class="loading">読み込み中…</p>';
+    try {
+      const res = await fetch(GAS_URL + '?type=log');
+      const rows = await res.json();
+      if (!rows || rows.length === 0) {
+        listEl.innerHTML = '<p class="loading">まだ記録がありません</p>';
+        return;
+      }
+      const sorted = rows.slice().reverse().slice(0, 31);
+      listEl.innerHTML = sorted.map(r => {
+        const tags = [];
+        if (r.category) tags.push(r.category);
+        if (r.minutes) tags.push(r.minutes + '分');
+        const tagHtml = tags.map(t => '<span class="h-tag">' + t + '</span>').join('');
+        return '<div class="history-row"><span class="h-date">' + dateLabel(r.date) + '</span>' + tagHtml +
+          (r.content ? '<span class="h-content">' + escapeHtml(String(r.content)) + '</span>' : '') + '</div>';
+      }).join('');
+    } catch (err) {
+      listEl.innerHTML = '<p class="loading">履歴を取得できませんでした</p>';
+    }
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  loadHistory();
+</script>
+</body>
+</html>

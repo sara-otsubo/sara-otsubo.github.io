@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth | Sara's Compass</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { --page-accent: var(--accent-health); --page-accent-soft: var(--accent-health-soft); --page-accent-dark: var(--accent-health-dark); }
+
+  .streak-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  @media (max-width: 600px) { .streak-grid { grid-template-columns: 1fr; } }
+
+  .streak-card {
+    background: var(--base-bg);
+    border: 1px solid var(--base-border);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    text-align: center;
+  }
+  .streak-card .s-num { font-size: 28px; font-weight: 800; color: var(--page-accent-dark); }
+  .streak-card .s-label { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
+
+  .placeholder-note {
+    text-align: center;
+    padding: 24px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    background: var(--base-bg);
+    border: 1px dashed var(--base-border);
+    border-radius: var(--radius-md);
+  }
+
+  .month-list { display: flex; flex-direction: column; gap: 10px; }
+  .month-row {
+    display: flex; justify-content: space-between; align-items: center;
+    border: 1px solid var(--base-border); border-radius: 8px;
+    padding: 10px 14px; font-size: 13px;
+  }
+  .month-row .m-name { font-weight: 700; }
+  .month-row .m-status { font-size: 11.5px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="site-header">
+    <a href="index.html" class="logo">Sara's Compass</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="learning.html">Learning</a>
+      <a href="writing.html">Writing</a>
+      <a href="projects.html">Projects</a>
+      <a href="growth.html" class="active">Growth</a>
+    </nav>
+  </header>
+
+  <div class="page-hero">
+    <div class="eyebrow">GROWTH</div>
+    <h1>Growth</h1>
+    <p>月次レポート、継続日数、過去からの変化をまとめていく予定のページです。</p>
+  </div>
+
+  <div class="card">
+    <h2>継続記録</h2>
+    <div class="streak-grid">
+      <div class="streak-card">
+        <div class="s-num">—</div>
+        <div class="s-label">学習継続日数</div>
+      </div>
+      <div class="streak-card">
+        <div class="s-num">—</div>
+        <div class="s-label">健康記録継続日数</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>月次レポート</h2>
+    <div class="month-list">
+      <div class="month-row">
+        <span class="m-name">2026年6月</span>
+        <span class="m-status">準備中</span>
+      </div>
+    </div>
+    <div class="placeholder-note" style="margin-top:14px;">
+      ここに月ごとの振り返り（学習時間・健康記録の傾向・できごと）を蓄積していく予定です。
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    Sara's Compass
+  </footer>
+
+</div>
+</body>
+</html>

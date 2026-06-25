@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects | Sara's Compass</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { --page-accent: var(--accent-top); --page-accent-soft: var(--accent-top-soft); --page-accent-dark: var(--accent-top-dark); }
+
+  .tech-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .tech-pill {
+    background: var(--page-accent-soft);
+    color: var(--page-accent-dark);
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .log-timeline { position: relative; padding-left: 18px; }
+  .log-timeline::before {
+    content: '';
+    position: absolute;
+    left: 4px; top: 6px; bottom: 6px;
+    width: 2px;
+    background: var(--base-border);
+  }
+  .log-item { position: relative; padding-bottom: 18px; }
+  .log-item:last-child { padding-bottom: 0; }
+  .log-item::before {
+    content: '';
+    position: absolute;
+    left: -18px; top: 4px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--page-accent);
+    border: 2px solid var(--base-bg-card);
+  }
+  .log-item .l-date { font-size: 11.5px; font-weight: 800; color: var(--page-accent-dark); margin-bottom: 3px; }
+  .log-item .l-desc { font-size: 13px; color: var(--ink); line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="site-header">
+    <a href="index.html" class="logo">Sara's Compass</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="learning.html">Learning</a>
+      <a href="writing.html">Writing</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="growth.html">Growth</a>
+    </nav>
+  </header>
+
+  <div class="page-hero">
+    <div class="eyebrow">PROJECTS</div>
+    <h1>Projects</h1>
+    <p>このポータルサイト「Sara's Compass」自体が、いちばん大きな制作物です。</p>
+  </div>
+
+  <div class="card">
+    <h2>このサイトについて</h2>
+    <p style="font-size:13.5px; color:var(--ink-soft); margin:0 0 4px;">
+      学習・健康・発信の記録をひとつにまとめるために、GitHub PagesとGoogle Apps Scriptを使って自作しているポータルサイトです。
+      完成形を最初から目指すのではなく、「動くものを作る → 見た目を整える → 機能を増やす」を少しずつ積み重ねるスタイルで育てています。
+    </p>
+    <div class="tech-row">
+      <span class="tech-pill">HTML / CSS / JavaScript</span>
+      <span class="tech-pill">GitHub Pages</span>
+      <span class="tech-pill">Google Apps Script</span>
+      <span class="tech-pill">Google スプレッドシート</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>開発ログ</h2>
+    <div class="log-timeline">
+      <div class="log-item">
+        <div class="l-date">2026年6月</div>
+        <div class="l-desc">ポータルサイト「Sara's Compass」の構想・制作スタート。トップページと健康記録ページを公開。</div>
+      </div>
+      <div class="log-item">
+        <div class="l-date">2026年6月</div>
+        <div class="l-desc">健康記録・学習記録をGoogleスプレッドシートと連携。Google Apps Script経由でフォームからの記録を自動保存する仕組みを構築。</div>
+      </div>
+      <div class="log-item">
+        <div class="l-date">2026年6月</div>
+        <div class="l-desc">公開ページ（Home / Learning / Writing / Projects / Growth）と非公開ページ（健康記録・学習ログ・メンバー紹介）を分離。名刺で共有する前提の構成に再設計。</div>
+      </div>
+      <div class="log-item">
+        <div class="l-date">2026年6月</div>
+        <div class="l-desc">Project Compassのキャラクターたち（マリ・パキラ・ジオ・ガジュマル・ガーベラ・アサガオ）の紹介ページを作成。</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    Sara's Compass
+  </footer>
+
+</div>
+</body>
+</html>

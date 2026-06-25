@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>メンバー紹介（非公開） | Sara's Compass</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { --page-accent: var(--accent-other); --page-accent-soft: var(--accent-other-soft); --page-accent-dark: var(--accent-other-dark); }
+
+  .private-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-other-soft);
+    color: var(--accent-other-dark);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 11.5px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .member-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 600px) { .member-grid { grid-template-columns: 1fr; } }
+
+  .member-card {
+    background: var(--base-bg-card);
+    border: 1px solid var(--base-border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    border-left: 4px solid var(--m-color);
+  }
+  .member-card .m-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .member-card .m-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--m-color);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .member-card .m-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .member-card .m-name { font-size: 16px; font-weight: 800; }
+  .member-card .m-flower { font-size: 11.5px; color: var(--ink-soft); }
+  .member-card .m-role {
+    display: inline-block;
+    background: var(--m-soft);
+    color: var(--m-color);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .member-card .m-desc {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="site-header">
+    <a href="index.html" class="logo">Sara's Compass</a>
+  </header>
+
+  <div class="page-hero">
+    <span class="private-badge">🔒 非公開ページ</span>
+    <div class="eyebrow">TEAM</div>
+    <h1>Project Compassのメンバー</h1>
+    <p>Saraの人生管理を支える、AIキャラクターたちの紹介。</p>
+  </div>
+
+  <div class="member-grid">
+
+    <div class="member-card" style="--m-color: var(--accent-top); --m-soft: var(--accent-top-soft);">
+      <div class="m-head">
+        <div class="m-avatar"><!-- <img src="images/mari.png" alt="マリ"> --></div>
+        <div>
+          <div class="m-name">マリ</div>
+          <div class="m-flower">マリーゴールド・花言葉「信頼」</div>
+        </div>
+      </div>
+      <div class="m-role">総括コーディネーター</div>
+      <div class="m-desc">Project Compass全体の窓口役。各担当をまとめながら、Saraの人生計画を一緒に整理していく相棒。</div>
+    </div>
+
+    <div class="member-card" style="--m-color: var(--accent-health); --m-soft: var(--accent-health-soft);">
+      <div class="m-head">
+        <div class="m-avatar"><!-- <img src="images/pakira.png" alt="パキラ"> --></div>
+        <div>
+          <div class="m-name">パキラ</div>
+          <div class="m-flower">パキラ・花言葉「快活」「勝利」</div>
+        </div>
+      </div>
+      <div class="m-role">金銭管理</div>
+      <div class="m-desc">推し活と将来の貯蓄・独立準備のバランスを管理。独立を掴み取るイメージで名付けられた。</div>
+    </div>
+
+    <div class="member-card" style="--m-color: var(--accent-study); --m-soft: var(--accent-study-soft);">
+      <div class="m-head">
+        <div class="m-avatar"><!-- <img src="images/geo.png" alt="ジオ"> --></div>
+        <div>
+          <div class="m-name">ジオ</div>
+          <div class="m-flower">ピンクのグラジオラス・花言葉「たゆまぬ努力」</div>
+        </div>
+      </div>
+      <div class="m-role">勉強管理</div>
+      <div class="m-desc">税理士試験・大学の学習計画を一緒に見守る。無理のないペースかどうかを定期的にチェックする役目も。</div>
+    </div>
+
+    <div class="member-card" style="--m-color: #6f8f5c; --m-soft: #d9e5cd;">
+      <div class="m-head">
+        <div class="m-avatar"><!-- <img src="images/gajumaru.png" alt="ガジュマル"> --></div>
+        <div>
+          <div class="m-name">ガジュマル</div>
+          <div class="m-flower">ガジュマル</div>
+        </div>
+      </div>
+      <div class="m-role">健康管理</div>
+      <div class="m-desc">からだとメンタルのケアを担当。アドバイスより先に、まず話を聞くことを大事にしている。</div>
+    </div>
+
+    <div class="member-card" style="--m-color: #c0392b; --m-soft: #f0c9c4;">
+      <div class="m-head">
+        <div class="m-avatar"><!-- <img src="images/gerbera.png" alt="ガーベラ"> --></div>
+        <div>
+          <div class="m-name">ガーベラ</div>
+          <div class="m-flower">赤のガーベラ・花言葉「常に前進」「挑戦」</div>
+        </div>
+      </div>
+      <div class="m-role">業務管理（サマリー）</div>
+      <div class="m-desc">担当件数の推移や年間スケジュールを整理。将来のコンサル業務へのステップとしての成長記録も担う。</div>
+    </div>
+
+    <div class="member-card" style="--m-color: var(--accent-blog); --m-soft: var(--accent-blog-soft);">
+      <div class="m-head">
+        <div class="m-avatar"><!-- <img src="images/asagao.png" alt="アサガオ"> --></div>
+        <div>
+          <div class="m-name">アサガオ</div>
+          <div class="m-flower">アサガオ・花言葉「固い絆」</div>
+        </div>
+      </div>
+      <div class="m-role">ポータルサイト運営</div>
+      <div class="m-desc">このサイト「Sara's Compass」の作成・保守を担当。ツルが伸びて巻き付くように、新しい繋がりを作っていく行動力がイメージ。</div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    Sara's Compass
+  </footer>
+
+</div>
+</body>
+</html>

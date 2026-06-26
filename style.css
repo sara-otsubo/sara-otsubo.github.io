@@ -36,6 +36,11 @@
   --accent-other-soft: #e3e0d9;
   --accent-other-dark: #5a564f;
 
+  /* アクセント：Reading（澄んだ青） */
+  --accent-reading: #3a7ca5;
+  --accent-reading-soft: #cfe3ee;
+  --accent-reading-dark: #265e80;
+
   --radius-md: 10px;
   --radius-lg: 16px;
 }

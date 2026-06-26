@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>非公開ページ一覧 | Sara's Compass</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { --page-accent: var(--accent-other); --page-accent-soft: var(--accent-other-soft); --page-accent-dark: var(--accent-other-dark); }
+
+  .private-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-other-soft);
+    color: var(--accent-other-dark);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 11.5px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .admin-list { display: flex; flex-direction: column; gap: 12px; }
+  .admin-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--base-bg-card);
+    border: 1px solid var(--base-border);
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    text-decoration: none;
+    color: var(--ink);
+    border-left: 4px solid var(--al-color, var(--page-accent));
+    transition: transform .15s;
+  }
+  .admin-link:hover { transform: translateX(3px); }
+  .admin-link .al-icon { font-size: 22px; }
+  .admin-link .al-title { font-size: 14.5px; font-weight: 800; }
+  .admin-link .al-desc { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="site-header">
+    <a href="index.html" class="logo">Sara's Compass</a>
+  </header>
+
+  <div class="page-hero">
+    <span class="private-badge">🔒 非公開ページ一覧</span>
+    <h1>管理者ページ</h1>
+    <p>隠しコマンドからアクセスしたページ一覧です。</p>
+  </div>
+
+  <div class="card">
+    <div class="admin-list">
+      <a href="sara-health-9c51f874.html" class="admin-link" style="--al-color: var(--accent-health);">
+        <span class="al-icon">🌿</span>
+        <div>
+          <div class="al-title">健康記録</div>
+          <div class="al-desc">食事・運動・体重・メンタル・生理の記録</div>
+        </div>
+      </a>
+      <a href="sara-studylog-9c51f874.html" class="admin-link" style="--al-color: var(--accent-study);">
+        <span class="al-icon">📝</span>
+        <div>
+          <div class="al-title">学習ログ</div>
+          <div class="al-desc">日々の学習内容・時間の記録</div>
+        </div>
+      </a>
+      <a href="sara-team-9c51f874.html" class="admin-link" style="--al-color: var(--accent-blog);">
+        <span class="al-icon">🧭</span>
+        <div>
+          <div class="al-title">メンバー紹介</div>
+          <div class="al-desc">Project Compassのキャラクターたち</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    Sara's Compass
+  </footer>
+
+</div>
+</body>
+</html>

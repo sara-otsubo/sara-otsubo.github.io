@@ -21,18 +21,24 @@
       var tapTimer = null;
 
       logo.addEventListener('click', function (e) {
+        e.preventDefault(); // タップ中は常にページ遷移を止める
         tapCount++;
         if (tapTimer) clearTimeout(tapTimer);
-        tapTimer = setTimeout(function () {
-          tapCount = 0;
-        }, TAP_WINDOW_MS);
 
         if (tapCount >= TAP_LIMIT) {
-          e.preventDefault(); // 5回目だけリンク遷移を止めて管理者ページへ
           tapCount = 0;
-          clearTimeout(tapTimer);
           goToAdmin();
+          return;
         }
+
+        // 一定時間タップが続かなければ、通常のロゴクリックとしてHomeに移動する
+        tapTimer = setTimeout(function () {
+          var wasSingleTap = (tapCount === 1);
+          tapCount = 0;
+          if (wasSingleTap) {
+            window.location.href = logo.getAttribute('href');
+          }
+        }, TAP_WINDOW_MS);
       });
 
       // ダブルクリックでテキスト選択されるのを防ぐ

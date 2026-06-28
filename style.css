@@ -41,6 +41,11 @@
   --accent-reading-soft: #cfe3ee;
   --accent-reading-dark: #265e80;
 
+  /* アクセント：支出推移（ゴールド） */
+  --accent-expense: #b8860b;
+  --accent-expense-soft: #ecd9a8;
+  --accent-expense-dark: #8a6508;
+
   --radius-md: 10px;
   --radius-lg: 16px;
 }

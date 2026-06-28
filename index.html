@@ -16,11 +16,12 @@
     border: 1px solid var(--base-border);
   }
   .hero-banner .mark {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    background: var(--accent-top);
+    width: 140px; height: 140px;
     margin-bottom: 14px;
-    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-banner .mark img {
+    width: 100%; height: 100%;
+    object-fit: contain;
   }
   .hero-banner h1 {
     margin: 0 0 6px;
@@ -72,7 +73,7 @@
 <div class="page">
 
   <header class="site-header">
-    <a href="index.html" class="logo">Sara's Compass</a>
+    <a href="index.html" class="logo"><img src="images/logo-icon.png" alt="">Sara's Compass</a>
     <nav>
       <a href="index.html" class="active">Home</a>
       <a href="learning.html">Learning</a>
@@ -85,15 +86,7 @@
 
   <div class="hero-banner">
     <div class="mark">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="5" fill="white" opacity="0.95"/>
-        <g stroke="white" stroke-width="1.5" opacity="0.95">
-          <line x1="12" y1="2" x2="12" y2="5"/>
-          <line x1="12" y1="19" x2="12" y2="22"/>
-          <line x1="2" y1="12" x2="5" y2="12"/>
-          <line x1="19" y1="12" x2="22" y2="12"/>
-        </g>
-      </svg>
+      <img src="images/logo-hero.jpg" alt="Sara's Compass ロゴ">
     </div>
     <h1>Sara</h1>
     <p class="intro">通信制大学で学びながら、税理士試験に挑戦中。<br>学習・健康・発信の記録を通して、自分の成長を可視化しています。</p>

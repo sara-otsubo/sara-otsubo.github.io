@@ -77,13 +77,31 @@
     font-weight: 800;
     margin-bottom: 10px;
   }
+
+  .choice-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .choice-btn {
+    border: 1.5px solid var(--base-border);
+    background: var(--base-bg-card);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--ink);
+    transition: all .15s;
+  }
+  .choice-btn.selected {
+    background: var(--page-accent);
+    border-color: var(--page-accent);
+    color: white;
+  }
 </style>
 </head>
 <body>
 <div class="page">
 
   <header class="site-header">
-    <a href="index.html" class="logo">Sara's Compass</a>
+    <a href="index.html" class="logo"><img src="images/logo-icon.png" alt="">Sara's Compass</a>
   </header>
 
   <div class="page-hero">
@@ -103,10 +121,30 @@
       </div>
 
       <div class="field-block">
+        <label class="title">朝食</label>
         <label class="toggle-row">
-          <input type="checkbox" id="okazu">
-          <span>おかずを先に食べた</span>
+          <input type="checkbox" id="breakfast">
+          <span>食べた</span>
         </label>
+      </div>
+
+      <div class="field-block">
+        <label class="title">昼食</label>
+        <label class="toggle-row">
+          <input type="checkbox" id="lunch">
+          <span>食べた</span>
+        </label>
+      </div>
+
+      <div class="field-block">
+        <label class="title">夜の米の量</label>
+        <div class="choice-row" id="rice-choice">
+          <div class="choice-btn" data-value="1">1杯</div>
+          <div class="choice-btn" data-value="1.5">1.5杯</div>
+          <div class="choice-btn" data-value="2">2杯</div>
+          <div class="choice-btn" data-value="2.5">2.5杯</div>
+          <div class="choice-btn" data-value="3">3杯</div>
+        </div>
       </div>
 
       <div class="field-block">
@@ -194,6 +232,20 @@
   $('mood').addEventListener('input', () => $('mood-out').textContent = $('mood').value);
   $('appetite').addEventListener('input', () => $('appetite-out').textContent = $('appetite').value);
 
+  let selectedRice = '';
+  document.querySelectorAll('#rice-choice .choice-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isAlreadySelected = btn.classList.contains('selected');
+      document.querySelectorAll('#rice-choice .choice-btn').forEach(b => b.classList.remove('selected'));
+      if (isAlreadySelected) {
+        selectedRice = ''; // もう一度押すと選択解除（任意項目のため）
+      } else {
+        btn.classList.add('selected');
+        selectedRice = btn.dataset.value;
+      }
+    });
+  });
+
   function periodLabel(p) {
     if (p === 'start') return '生理開始';
     if (p === 'ongoing') return '生理中';
@@ -219,7 +271,9 @@
 
     const params = new URLSearchParams({
       date: $('date-input').value,
-      okazu: $('okazu').checked ? 'true' : 'false',
+      breakfast: $('breakfast').checked ? 'true' : 'false',
+      lunch: $('lunch').checked ? 'true' : 'false',
+      rice_amount: selectedRice,
       exercise_did: $('exercise-did').checked ? 'true' : 'false',
       exercise_min: $('exercise-min').value || '',
       exercise_memo: $('exercise-memo').value || '',
@@ -257,7 +311,9 @@
       const sorted = rows.slice().reverse().slice(0, 31);
       listEl.innerHTML = sorted.map(r => {
         const tags = [];
-        if (r.okazu === true || r.okazu === 'TRUE') tags.push('おかず先');
+        if (r.breakfast === true || r.breakfast === 'TRUE') tags.push('朝食○');
+        if (r.lunch === true || r.lunch === 'TRUE') tags.push('昼食○');
+        if (r.rice_amount) tags.push('夜の米' + r.rice_amount + '杯');
         if (r.exercise_did === true || r.exercise_did === 'TRUE') {
           tags.push('運動' + (r.exercise_min ? ' ' + r.exercise_min + '分' : ''));
         }
